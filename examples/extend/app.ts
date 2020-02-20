@@ -29,3 +29,20 @@ axios.post('/extend/post', { msg: 'post' })
 axios.put('/extend/put', { msg: 'put' })
 
 axios.patch('/extend/patch', { msg: 'patch' })
+
+
+//// ===== 函数重载
+axios({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hi'
+  }
+})
+
+axios('/extend/post', {
+  method: 'post',
+  data: {
+    msg: 'hello'
+  }
+})
