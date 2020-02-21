@@ -75,6 +75,7 @@ router.get('/error/timeout', function(req, res) {
 })
 
 registerExtendRouter()
+registerInterceptorRouter()
 
 function registerExtendRouter() {
   router.get('/extend/get', function (req, res){
@@ -118,12 +119,19 @@ function registerExtendRouter() {
   })
 }
 
-  // 拦截器接口
-  function registerInterceptorRouter() {
-    router.get('/interceptor/get', function(req, res) {
-      req.end('hello')
-    })
-  }
+// 拦截器接口
+function registerInterceptorRouter() {
+  router.get('/interceptor/get', function(req, res) {
+    res.end('hello')
+  })
+}
+
+// 合并请求头
+function registerConfigRouter() {
+  router.post('/config/post', function(req, res) {
+    res.end(req.body)
+  })
+}
 
 app.use(router)
 
