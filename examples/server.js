@@ -105,9 +105,25 @@ function registerExtendRouter() {
   router.patch('/extend/patch', function(req, res) {
     res.json(req.body)
   })
+
+  router.get('/extend/user', function(req, res) {
+    res.json({
+      code: 0,
+      message: 'ok',
+      result: {
+        name: 'jock',
+        age: 18
+      }
+    })
+  })
 }
 
-
+  // 拦截器接口
+  function registerInterceptorRouter() {
+    router.get('/interceptor/get', function(req, res) {
+      req.end('hello')
+    })
+  }
 
 app.use(router)
 
