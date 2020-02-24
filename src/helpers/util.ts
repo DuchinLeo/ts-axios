@@ -1,4 +1,3 @@
-import { AnyARecord } from "dns"
 
 const toString = Object.prototype.toString
 

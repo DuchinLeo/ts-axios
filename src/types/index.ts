@@ -7,7 +7,7 @@ export interface AxiosRequestConfig {
   responseType?: XMLHttpRequestResponseType,
   timeout?: number
 
-  [propName: string]: any
+  [propName:string]: any
 }
 
 export type Method = 'get' | 'GET'
@@ -73,6 +73,7 @@ export interface AxiosRequestConfig {
   url?: string
   // ....
 }
+
 
 export interface AxiosInterceptorManager<T> {
   use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number

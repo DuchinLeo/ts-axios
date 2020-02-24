@@ -1,7 +1,7 @@
 import { isPlainObject, deepMerge } from "./util";
 import { Method } from "../types"
 
-function normallizeHeaderName (headers: any, normalizedName: string): void {
+function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
     return
   }
@@ -13,12 +13,12 @@ function normallizeHeaderName (headers: any, normalizedName: string): void {
   })
 }
 
-export function processHeaders (headers: any, data: any): any {
-  normallizeHeaderName(headers, 'Content-Type')
+export function processHeaders(headers: any, data: any): any {
+  normalizeHeaderName(headers, 'Content-Type')
 
   if (isPlainObject(data)) {
     if (headers && !headers['Content-Type']) {
-      headers['Content-Type'] = 'application/json;charset-utf-8'
+      headers['Content-Type'] = 'application/json;charset=utf-8'
     }
   }
   return headers

@@ -76,6 +76,7 @@ router.get('/error/timeout', function(req, res) {
 
 registerExtendRouter()
 registerInterceptorRouter()
+registerConfigRouter()
 
 function registerExtendRouter() {
   router.get('/extend/get', function (req, res){
@@ -129,7 +130,8 @@ function registerInterceptorRouter() {
 // 合并请求头
 function registerConfigRouter() {
   router.post('/config/post', function(req, res) {
-    res.end(req.body)
+    console.log('请求进来了',req.body)
+    res.json(req.body)
   })
 }
 
