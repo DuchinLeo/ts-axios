@@ -1,3 +1,10 @@
+/*
+ * @Description: util
+ * @Author: Duchin/梁达钦
+ * @Date: 2020-02-17 13:59:07
+ * @LastEditTime: 2020-04-14 15:38:30
+ * @LastEditors: Duchin/梁达钦
+ */
 
 const toString = Object.prototype.toString
 
@@ -41,4 +48,8 @@ export function deepMerge(...objs: any[]): any {
   })
 
   return result
+}
+
+export function isFormData(val: any): boolean {
+  return typeof val !== 'undefined' && val instanceof FormData
 }

@@ -1,3 +1,10 @@
+/*
+ * @Description: 派发请求前处理
+ * @Author: Duchin/梁达钦
+ * @Date: 2020-02-19 16:45:26
+ * @LastEditTime: 2020-04-13 19:38:03
+ * @LastEditors: Duchin/梁达钦
+ */
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import xhr from './xhr'
 import { bulidURL } from '../helpers/url'
@@ -6,6 +13,7 @@ import { flattenHeaders } from '../helpers/headers'
 import transform from './transform'
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise{
+  throwIfCancellationRequested(config)
   processConfig(config)
   return xhr(config).then((res) => {
     return transformResponseData(res)
@@ -38,4 +46,10 @@ function transformResponseData(res: AxiosResponse): AxiosResponse {
   // res.data = transformResponse(res.data)
   res.data = transform(res.data, res.headers, res.config.transformResponse)
   return res
+}
+
+function throwIfCancellationRequested(config: AxiosRequestConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested()
+  }
 }

@@ -1,4 +1,16 @@
+/*
+ * @Description: url
+ * @Author: Duchin/梁达钦
+ * @Date: 2020-02-14 16:29:36
+ * @LastEditTime: 2020-04-14 14:47:34
+ * @LastEditors: Duchin/梁达钦
+ */
 import { isDate, isPlainObject } from './util'
+
+interface URLOrigin {
+  protocol: string
+  host: string
+}
 
 function encode (val: string): string {
   return encodeURIComponent(val)
@@ -51,4 +63,24 @@ export function bulidURL(url: string, params?: any) {
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
   }
   return url
+}
+
+const urlParsingNode = document.createElement('a')
+const currentOrigin = resolveURL(window.location.href)
+
+export function isURLSameOrigin(requestURL: string): boolean {
+  const parsedOrigin = resolveURL(requestURL)
+  return (
+    parsedOrigin.protocol === currentOrigin.protocol && parsedOrigin.host === currentOrigin.host
+    )
+}
+
+function resolveURL(url: string): URLOrigin {
+  urlParsingNode.setAttribute('href', url)
+  const { protocol, host } = urlParsingNode
+
+  return {
+    protocol,
+    host
+  }
 }

@@ -1,3 +1,4 @@
+
 export interface AxiosRequestConfig {
   url?: string
   method?: Method
@@ -9,10 +10,20 @@ export interface AxiosRequestConfig {
   [propName:string]: any
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
+  xsrfCookieName?: string
+  xsrfHeaderNmae?: string
+  onDownloadProgress?: (e: ProgressEvent) => void
+  onUploadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosBasicCredentials
 }
 
 export interface AxiosTransformer {
   (data: any, headers?: any): any
+}
+
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
 }
 
 export type Method = 'get' | 'GET'
@@ -76,10 +87,16 @@ export interface AxiosInstance extends Axios {
 
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance
+
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
 }
 
 export interface AxiosRequestConfig {
   url?: string
+  cancelToken?: CancelToken
+  withCredentials?: boolean
   // ....
 }
 
@@ -96,4 +113,38 @@ export interface ResolvedFn<T=any> {
 
 export interface RejectedFn {
   (error: any): any
+}
+
+export interface CancelToken {
+  promise: Promise<Cancel>
+  reason?: Cancel
+
+  throwIfRequested(): void
+}
+
+export interface Canceler {
+  (mesage?: string): void
+}
+
+export interface CancelExecutor {
+  (cancel: Canceler): void
+}
+
+export interface CancelTokenSource {
+  token: CancelToken
+  cancel: Canceler
+}
+
+export interface CancelTokenStatic {
+  new(executor: CancelExecutor): CancelToken
+
+  source(): CancelTokenSource
+}
+
+export interface Cancel {
+  message?: string
+}
+
+export interface CancelStatic {
+  new(message?: string): Cancel
 }

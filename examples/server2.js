@@ -1,3 +1,10 @@
+/*
+ * @Description: sss
+ * @Author: Duchin/梁达钦
+ * @Date: 2020-02-24 11:46:09
+ * @LastEditTime: 2020-04-14 11:56:00
+ * @LastEditors: Duchin/梁达钦
+ */
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -17,6 +24,8 @@ const cors = {
   'Access-Control-Allow-Headers': 'Content-Type'
 }
 
+
+
 router.post('/more/server2', function(req, res) {
   res.set(cors)
   res.json(req.cookies)
@@ -30,4 +39,6 @@ router.options('/more/server2', function(req, res) {
 app.use(router)
 
 const port = 8088
-module.exports = app.listen(port)
+module.exports = app.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
+})

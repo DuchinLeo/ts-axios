@@ -31,7 +31,7 @@ app.use(express.static(__dirname, {
 }))
 
 app.use(bodyParser.json())
-// app.use(bodyParser.text())
+app.use(bodyParser.text())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
@@ -221,3 +221,31 @@ function registerMoreRouter () {
     res.end('B')
   })
 }
+
+function registerCancelRouter() {
+  router.get('/cancel/get', function(req, res) {
+    setTimeout(() => {
+      res.json('hello')
+    }, 1000)
+  })
+
+  router.post('/cancel/post', function(req, res) {
+    setTimeout(() => {
+      res.json(req.body)
+    }, 1000)
+  })
+}
+
+// function registerMoreRouter () {
+//   router.get('/more/get', function(req, res) {
+//     res.json(req.cookies)
+//   })
+// }
+
+app.use(express.static(__dirname, {
+  setHeaders (res) {
+    res.cookie('XSRF-TOKEN-D', '1234abc')
+  }
+}))
+
+

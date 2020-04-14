@@ -1,3 +1,10 @@
+/*
+ * @Description: web
+ * @Author: Duchin/梁达钦
+ * @Date: 2020-02-14 15:12:58
+ * @LastEditTime: 2020-04-14 15:57:20
+ * @LastEditors: Duchin/梁达钦
+ */
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
@@ -53,6 +60,12 @@ module.exports = {
               transpileOnly: true
             }
           }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader', 'css-loader'
         ]
       }
     ]
