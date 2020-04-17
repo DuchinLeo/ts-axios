@@ -2,7 +2,7 @@
  * @Description: merge
  * @Author: Duchin/梁达钦
  * @Date: 2020-02-21 16:26:56
- * @LastEditTime: 2020-04-14 16:24:51
+ * @LastEditTime: 2020-04-16 18:15:04
  * @LastEditors: Duchin/梁达钦
  */
 import { AxiosRequestConfig } from '../types'
@@ -27,7 +27,7 @@ function deepMergeStrat(val1: any, val2: any): any {
     return val2
   } else if (isPlainObject(val1)) {
     return deepMerge(val1)
-  } else if (typeof val1 !== 'undefined') {
+  } else {
     return val1
   }
 }

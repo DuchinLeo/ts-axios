@@ -2,10 +2,10 @@
  * @Description: url
  * @Author: Duchin/梁达钦
  * @Date: 2020-02-14 16:29:36
- * @LastEditTime: 2020-04-14 14:47:34
+ * @LastEditTime: 2020-04-15 10:37:22
  * @LastEditors: Duchin/梁达钦
  */
-import { isDate, isPlainObject } from './util'
+import { isDate, isPlainObject, isURLSearchParams } from './util'
 
 interface URLOrigin {
   protocol: string
@@ -23,38 +23,51 @@ function encode (val: string): string {
     .replace(/%5D/g, ']')
 }
 
-export function bulidURL(url: string, params?: any) {
+export function buildURL(
+  url: string,
+  params?: any,
+  paramsSerializer?: (params: any) => string
+): string {
   if (!params) {
     return url
   }
+  let serializedParams
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    serializedParams = params.toString()
+  } else {
 
-  const parts: string[] = []
+    const parts: string[] = []
 
-  Object.keys(params).forEach((key) => {
-    const val = params[key]
-    if (val === null || typeof val === 'undefined') {
-      return
-    }
-    let values = []
-    // 判断params是否为数组、为数组则赋值，不为数组则将值存入数组
-    if (Array.isArray(val)) {
-      values = val
-      key += '[]'
-    } else {
-      values = [val]
-    }
-    // 对数组中的值进行循环，判断每一项数据，并进行初始拼接
-    values.forEach((val) => {
-      if (isDate(val)) {
-        val = val.toISOString()
-      } else if (isPlainObject(val)) {
-        val = JSON.stringify(val)
+    Object.keys(params).forEach((key) => {
+      const val = params[key]
+      if (val === null || typeof val === 'undefined') {
+        return
       }
-      parts.push(`${encode(key)}=${encode(val)}`)
+      let values = []
+      // 判断params是否为数组、为数组则赋值，不为数组则将值存入数组
+      if (Array.isArray(val)) {
+        values = val
+        key += '[]'
+      } else {
+        values = [val]
+      }
+      // 对数组中的值进行循环，判断每一项数据，并进行初始拼接
+      values.forEach((val) => {
+        if (isDate(val)) {
+          val = val.toISOString()
+        } else if (isPlainObject(val)) {
+          val = JSON.stringify(val)
+        }
+        parts.push(`${encode(key)}=${encode(val)}`)
+      })
     })
-  })
+    serializedParams = parts.join('&')
+  }
   // 将排序好的参数url进行拼接，拼接前判断url是否已经带有参数、截取哈希段
-  let serializedParams = parts.join('&')
+  // let serializedParams = parts.join('&')
+
   if (serializedParams) {
     const markIndex = url.indexOf('#')
     if (markIndex !== -1) {
@@ -83,4 +96,12 @@ function resolveURL(url: string): URLOrigin {
     protocol,
     host
   }
+}
+
+export function isAbsoluteURL(url: string): boolean {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+}
+
+export function combineURL(baseURL: string, relativeURL?: string): string {
+  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL
 }

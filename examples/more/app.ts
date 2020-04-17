@@ -2,12 +2,15 @@
  * @Description:
  * @Author: Duchin/梁达钦
  * @Date: 2020-04-14 10:32:38
- * @LastEditTime: 2020-04-14 16:31:45
+ * @LastEditTime: 2020-04-15 12:02:14
  * @LastEditors: Duchin/梁达钦
  */
 
 import axios from '../../src/index'
 import NProgress from 'nprogress'
+
+import {AxiosError} from '../../src/types'
+import qs from'qs'
 
 // document.cookie = 'a=b'
 // document.cookie = 'c=d'
@@ -105,13 +108,126 @@ import NProgress from 'nprogress'
 
 // ======================= HTTP授权
 
-axios.post('/more/post', {
-  a: 1
-}, {
-  auth: {
-    username: 'Yee',
-    password: '123456'
+// axios.post('/more/post', {
+//   a: 1
+// }, {
+//   auth: {
+//     username: 'Yee',
+//     password: '123456'
+//   }
+// }).then(res => {
+//   console.log(res)
+// })
+
+// ============= 自定义状态码
+  // axios.get('/more/304').then(res => {
+  // console.log(res)
+  // }).catch((e: AxiosError) => {
+  // console.log(e.message)
+  // })
+
+  // axios.get('/more/304', {
+  // validateStatus(status) {
+  //   return status >= 200 && status < 400
+  // }
+  // }).then(res => {
+  // console.log(res)
+  // }).catch((e: AxiosError) => {
+  // console.log(e.message)
+  // })
+
+
+  // 自定义参数序列化
+
+  // axios.get('/more/get', {
+  //   params: new URLSearchParams('a=b&c=d')
+  // }).then(res => {
+  //   console.log(res)
+  // })
+
+  // axios.get('/more/get', {
+  //   params: {
+  //     a: 1,
+  //     b: 2,
+  //     c: ['a', 'b', 'c']
+  //   }
+  // }).then(res => {
+  //   console.log(res)
+  // })
+
+  // const instance = axios.create({
+  //   paramsSerializer(params) {
+  //     return qs.stringify(params, { arrayFormat: 'brackets' })
+  //   }
+  // })
+
+  // instance.get('/more/get', {
+  //   params: {
+  //     a: 1,
+  //     b: 2,
+  //     c: ['a', 'b', 'c']
+  //   }
+  // }).then(res => {
+  //   console.log(res)
+  // })
+
+
+  // baseURL的配置
+
+  // const instance = axios.create({
+  //   baseURL: 'https://img.mukewang.com/'
+  // })
+
+  // instance.get('5cc01a7b0001a33718720632.jpg')
+  // instance.get('/5cc01a7b0001a33718720632.jpg')
+
+  // instance.get('https://img.mukewang.com/szimg/5becd5ad0001b89306000338-360-202.jpg')
+
+// 静态方法扩展----axios.all、axios.spread
+
+// function getUserAccount() {
+//   return axios.get('/user/12345');
+// }
+
+// function getUserPermissions() {
+//   return axios.get('/user/12345/permissions');
+// }
+
+// axios.all([getUserAccount(), getUserPermissions()])
+//   .then(axios.spread(function (acct, perms) {
+//     // Both requests are now complete
+//   }));
+
+// promise.all
+
+function getA() {
+  return axios.get('/more/A')
+}
+
+function getB() {
+  return axios.get('/more/B')
+}
+
+axios.all([getA(), getB()])
+  .then(axios.spread(function(resA, resB) {
+    console.log(resA.data)
+    console.log(resB.data)
+  }))
+
+
+axios.all([getA(), getB()])
+  .then(([resA, resB]) => {
+    console.log(resA.data)
+    console.log(resB.data)
+  })
+
+const fakeConfig = {
+  baseURL: 'https://www.baidu.com/',
+  url: '/user/12345',
+  params: {
+    idClient: 1,
+    idTest: 2,
+    testString: 'thisIsATest'
   }
-}).then(res => {
-  console.log(res)
-})
+}
+console.log(axios.getUri(fakeConfig))

@@ -2,7 +2,7 @@
  * @Description: util
  * @Author: Duchin/梁达钦
  * @Date: 2020-02-17 13:59:07
- * @LastEditTime: 2020-04-14 15:38:30
+ * @LastEditTime: 2020-04-15 15:38:28
  * @LastEditors: Duchin/梁达钦
  */
 
@@ -17,7 +17,7 @@ export function isDate(val: any): val is Date {
 // }
 
 export function isPlainObject(val: any): val is Object {
-  return toString.call(val) === '[object object]'
+  return toString.call(val) === '[object Object]'
 }
 
 export function extend<T, U>(to: T, from: U): T & U {
@@ -52,4 +52,8 @@ export function deepMerge(...objs: any[]): any {
 
 export function isFormData(val: any): boolean {
   return typeof val !== 'undefined' && val instanceof FormData
+}
+
+export function isURLSearchParams(val: any): val is URLSearchParams {
+  return typeof val !== 'undefined' && val instanceof URLSearchParams
 }
