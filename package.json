@@ -1,6 +1,6 @@
 {
-  "name": "ts-axios-new",
-  "version": "0.1.5",
+  "name": "ts-axios-new-duchin",
+  "version": "0.1.0",
   "description": "",
   "keywords": [],
   "main": "dist/axios.umd.js",
@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "author": "ustbhuangyi <280309453@qq.com>",
+  "author": "duchin <1277433857@qq.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/ustbhuangyi/ts-axios"
